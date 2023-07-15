@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import { Button, ButtonGroup, Grid, GridItem, Show } from "@chakra-ui/react";
 
 import { NavBar } from "./Components/NavBar";
+import { GameGrid } from "./Components/GameGrid";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <Show above="lg">
         <GridItem area="aside">Aside</GridItem>
       </Show>
-      <GridItem area="main">main</GridItem>
+      <GameGrid />
     </Grid>
   );
 }
