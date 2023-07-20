@@ -14,8 +14,9 @@ import Formatter from "../Services/url-format";
 
 interface GenreProps {
   onSelect: (dat: Genres) => void;
+  SelectedGenre: Genres | null;
 }
-const GenresList = ({ onSelect }: GenreProps) => {
+const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
   const { data, loading } = useGenres();
   const arr = [1, 2, 3, 4, 5, 5, 77, 878, 78, 8, 45, 353, 545, 54, 54, 5];
   if (loading)
@@ -36,6 +37,7 @@ const GenresList = ({ onSelect }: GenreProps) => {
                 src={Formatter(datas.image_background)}
               ></Image>
               <Button
+                fontWeight={datas.id === SelectedGenre?.id ? "bold" : "normal"}
                 display={"inline"}
                 onClick={() => onSelect(datas)}
                 variant="link"

@@ -7,6 +7,7 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import UseData from "../Hooks/useData";
 import useGames from "../Hooks/UseGames";
 import { Genres } from "../Hooks/useGeneres";
+import PlatformFilter from "./PlatformFilter";
 interface GameCardProps {
   selectedGenre: Genres | null;
 }
@@ -23,7 +24,7 @@ export const GameGrid = ({ selectedGenre }: GameCardProps) => {
         padding="10px"
       >
         {data.map((res) => (
-          <GameCard  game={res} key={res.id} />
+          <GameCard game={res} key={res.id} />
         ))}
         {loading &&
           li.map((skeleton) => (
