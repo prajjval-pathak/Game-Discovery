@@ -11,7 +11,7 @@ interface Props {
 export const GameCard = ({ game }: Props) => {
   return (
     <>
-      <Card borderRadius={10} overflow="hidden">
+      <Card width={"350px"} borderRadius={10} overflow="hidden">
         <Image src={Formatter(game.background_image)}></Image>
         <CardBody>
           <Heading size="xl">{game.name}</Heading>

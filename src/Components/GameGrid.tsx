@@ -6,9 +6,12 @@ import { GameCard } from "./GameCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 import UseData from "../Hooks/useData";
 import useGames from "../Hooks/UseGames";
-
-export const GameGrid = () => {
-  const { data, error, loading } = useGames();
+import { Genres } from "../Hooks/useGeneres";
+interface GameCardProps {
+  selectedGenre: Genres | null;
+}
+export const GameGrid = ({ selectedGenre }: GameCardProps) => {
+  const { data, error, loading } = useGames(selectedGenre);
   const li = [1, 2, 3, 4, 5, 6];
   return (
     <>
@@ -20,7 +23,7 @@ export const GameGrid = () => {
         padding="10px"
       >
         {data.map((res) => (
-          <GameCard game={res} key={res.id} />
+          <GameCard  game={res} key={res.id} />
         ))}
         {loading &&
           li.map((skeleton) => (
