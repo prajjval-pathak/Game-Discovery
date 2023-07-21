@@ -7,12 +7,13 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import UseData from "../Hooks/useData";
 import useGames from "../Hooks/UseGames";
 import { Genres } from "../Hooks/useGeneres";
-import PlatformFilter from "./PlatformFilter";
+import { PlatformResult } from "../Hooks/usePlatform";
 interface GameCardProps {
   selectedGenre: Genres | null;
+  selectedFilter: PlatformResult | null;
 }
-export const GameGrid = ({ selectedGenre }: GameCardProps) => {
-  const { data, error, loading } = useGames(selectedGenre);
+export const GameGrid = ({ selectedGenre, selectedFilter }: GameCardProps) => {
+  const { data, error, loading } = useGames(selectedGenre, selectedFilter);
   const li = [1, 2, 3, 4, 5, 6];
   return (
     <>
@@ -23,13 +24,13 @@ export const GameGrid = ({ selectedGenre }: GameCardProps) => {
         overflow="hidden"
         padding="10px"
       >
-        {data.map((res) => (
-          <GameCard game={res} key={res.id} />
-        ))}
         {loading &&
           li.map((skeleton) => (
             <LoadingSkeleton key={skeleton}></LoadingSkeleton>
           ))}
+        {data.map((res) => (
+          <GameCard game={res} key={res.id} />
+        ))}
       </SimpleGrid>
     </>
   );
