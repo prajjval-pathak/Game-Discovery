@@ -4,7 +4,7 @@ import { BsChevronDown } from "react-icons/bs";
 import usePlatform, { PlatformResult } from "../Hooks/usePlatform";
 import { Platform } from "../Hooks/UseGames";
 interface platformProps {
-  OnPlatformFilter: (data: PlatformResult) => void;
+  OnPlatformFilter: (data: PlatformResult | null) => void;
   selectedVal: PlatformResult | null;
 }
 const PlatformFilter = ({ OnPlatformFilter, selectedVal }: platformProps) => {
@@ -17,6 +17,7 @@ const PlatformFilter = ({ OnPlatformFilter, selectedVal }: platformProps) => {
           {selectedVal ? selectedVal.name : "Platform"}
         </MenuButton>
         <MenuList>
+          <MenuItem onClick={() => OnPlatformFilter(null)}>All</MenuItem>
           {data.map((platform) => (
             <MenuItem
               onClick={() => OnPlatformFilter(platform)}

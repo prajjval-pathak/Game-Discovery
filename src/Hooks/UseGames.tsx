@@ -20,7 +20,9 @@ export interface Games {
 
 const useGames = (
   selectedGenre: Genres | null,
-  selectedFilter: PlatformResult | null
+  selectedFilter: PlatformResult | null,
+  sortOption: string | null,
+  searchOption: string
 ) => {
   return UseData<Games>(
     "/games",
@@ -28,9 +30,11 @@ const useGames = (
       params: {
         genres: selectedGenre?.id,
         parent_platforms: selectedFilter?.id,
+        ordering: sortOption,
+        search: searchOption,
       },
     },
-    [selectedGenre?.id, selectedFilter?.id]
+    [selectedGenre?.id, selectedFilter?.id, sortOption, searchOption]
   );
 };
 export default useGames;

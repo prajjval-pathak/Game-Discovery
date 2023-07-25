@@ -12,7 +12,7 @@ export const GameCard = ({ game }: Props) => {
   return (
     <>
       <Card borderRadius={10} overflow="hidden">
-        <Image src={Formatter(game.background_image)}></Image>
+        <Image src={Formatter(game.background_image)} alt={game.name}></Image>
         <CardBody>
           <Heading size="xl">{game.name}</Heading>
           <HStack justifyContent="space-between">

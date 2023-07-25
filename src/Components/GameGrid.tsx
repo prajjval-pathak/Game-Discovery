@@ -11,9 +11,21 @@ import { PlatformResult } from "../Hooks/usePlatform";
 interface GameCardProps {
   selectedGenre: Genres | null;
   selectedFilter: PlatformResult | null;
+  sortOption: string | null;
+  searchOption: string;
 }
-export const GameGrid = ({ selectedGenre, selectedFilter }: GameCardProps) => {
-  const { data, error, loading } = useGames(selectedGenre, selectedFilter);
+export const GameGrid = ({
+  selectedGenre,
+  selectedFilter,
+  sortOption,
+  searchOption,
+}: GameCardProps) => {
+  const { data, error, loading } = useGames(
+    selectedGenre,
+    selectedFilter,
+    sortOption,
+    searchOption
+  );
   const li = [1, 2, 3, 4, 5, 6];
   return (
     <>
