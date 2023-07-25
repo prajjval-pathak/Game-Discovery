@@ -8,24 +8,12 @@ import UseData from "../Hooks/useData";
 import useGames from "../Hooks/UseGames";
 import { Genres } from "../Hooks/useGeneres";
 import { PlatformResult } from "../Hooks/usePlatform";
+import { GameQuery } from "../App";
 interface GameCardProps {
-  selectedGenre: Genres | null;
-  selectedFilter: PlatformResult | null;
-  sortOption: string | null;
-  searchOption: string;
+  gameQuey: GameQuery;
 }
-export const GameGrid = ({
-  selectedGenre,
-  selectedFilter,
-  sortOption,
-  searchOption,
-}: GameCardProps) => {
-  const { data, error, loading } = useGames(
-    selectedGenre,
-    selectedFilter,
-    sortOption,
-    searchOption
-  );
+export const GameGrid = ({ gameQuey }: GameCardProps) => {
+  const { data, error, loading } = useGames(gameQuey);
   const li = [1, 2, 3, 4, 5, 6];
   return (
     <>

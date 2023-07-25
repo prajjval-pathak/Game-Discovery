@@ -4,6 +4,7 @@ import { CanceledError } from "axios";
 import UseData from "./useData";
 import { Genres } from "./useGeneres";
 import { PlatformResult } from "./usePlatform";
+import { GameQuery } from "../App";
 
 export interface Platform {
   id: number;
@@ -18,23 +19,18 @@ export interface Games {
   metacritic: number;
 }
 
-const useGames = (
-  selectedGenre: Genres | null,
-  selectedFilter: PlatformResult | null,
-  sortOption: string | null,
-  searchOption: string
-) => {
+const useGames = (gmaeQuery: GameQuery) => {
   return UseData<Games>(
     "/games",
     {
       params: {
-        genres: selectedGenre?.id,
-        parent_platforms: selectedFilter?.id,
-        ordering: sortOption,
-        search: searchOption,
+        genres: gmaeQuery.genres?.id,
+        parent_platforms: gmaeQuery.platform?.id,
+        ordering: gmaeQuery.sort,
+        search: gmaeQuery.search,
       },
     },
-    [selectedGenre?.id, selectedFilter?.id, sortOption, searchOption]
+    [gmaeQuery]
   );
 };
 export default useGames;
