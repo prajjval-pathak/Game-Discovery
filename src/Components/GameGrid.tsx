@@ -22,7 +22,7 @@ export const GameGrid = ({ gameQuey }: GameCardProps) => {
         columns={{ sm: 1, md: 2, lg: 3 }}
         spacing="10"
         overflow="hidden"
-        padding="10px"
+        paddingY="10px"
       >
         {loading &&
           li.map((skeleton) => (
