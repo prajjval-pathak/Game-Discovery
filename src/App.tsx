@@ -56,6 +56,7 @@ function App() {
             }
           />
           <SortFilter
+          selectedFilter={gameQuery.sort}
             onSortFilter={(sort) => {
               setGameQuery({ ...gameQuery, sort });
             }}

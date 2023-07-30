@@ -15,9 +15,9 @@ interface GameCardProps {
 export const GameGrid = ({ gameQuey }: GameCardProps) => {
   const { data, error, loading } = useGames(gameQuey);
   const li = [1, 2, 3, 4, 5, 6];
+  if(error)return <Text color="tomato">{error}</Text>
   return (
     <>
-      {error && <Text color="tomato">{error}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3 }}
         spacing="10"

@@ -4,6 +4,7 @@ import { Games } from "../Hooks/UseGames";
 import { PlatformIconList } from "./PlatformIconList";
 import { MetaScore } from "./MetaScore";
 import Formatter from "../Services/url-format";
+import Emoji from "./Emoji";
 
 interface Props {
   game: Games;
@@ -14,7 +15,6 @@ export const GameCard = ({ game }: Props) => {
       <Card borderRadius={10} overflow="hidden">
         <Image src={Formatter(game.background_image)} alt={game.name}></Image>
         <CardBody>
-          <Heading size="xl">{game.name}</Heading>
           <HStack justifyContent="space-between">
             <PlatformIconList
               platforms={game.parent_platforms.map(
@@ -23,6 +23,8 @@ export const GameCard = ({ game }: Props) => {
             />
             <MetaScore score={game.metacritic} />
           </HStack>
+          <Heading size="xl">{game.name}</Heading>
+          <Emoji GameRate={game.rating_top} />
         </CardBody>
       </Card>
     </>

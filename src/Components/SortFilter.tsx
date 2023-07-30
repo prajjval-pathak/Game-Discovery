@@ -3,6 +3,7 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 interface sortProps {
   onSortFilter: (value: string) => void;
+  selectedFilter: string;
 }
 const data = [
   { value: "released", label: "Release Date" },
@@ -12,12 +13,13 @@ const data = [
   { value: "-created", label: "Date Created" },
 ];
 
-const SortFilter = ({ onSortFilter }: sortProps) => {
+const SortFilter = ({ onSortFilter, selectedFilter }: sortProps) => {
+  let obj = data.find((ct) => ct.value === selectedFilter);
   return (
     <>
       <Menu>
         <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-          Relevance
+          {selectedFilter ? obj?.label : "Relevance"}
         </MenuButton>
         <MenuList>
           {data.map((pt, index) => (
