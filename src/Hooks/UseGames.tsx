@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../Services/api-client";
 import { CanceledError } from "axios";
-import UseData from "./useData";
+import UseData, { FetchResponse } from "./useData";
 import { Genres } from "./useGeneres";
 import { PlatformResult } from "./usePlatform";
 import { GameQuery } from "../App";
+import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@chakra-ui/react";
 
 export interface Platform {
   id: number;
@@ -20,18 +22,32 @@ export interface Games {
   rating_top: number;
 }
 
-const useGames = (gmaeQuery: GameQuery) => {
-  return UseData<Games>(
-    "/games",
-    {
-      params: {
-        genres: gmaeQuery.genres?.id,
-        parent_platforms: gmaeQuery.platform?.id,
-        ordering: gmaeQuery.sort,
-        search: gmaeQuery.search,
-      },
-    },
-    [gmaeQuery]
-  );
-};
+const useGames = (gmaeQuery: GameQuery) =>
+  useQuery<Games[], Error>({
+    queryKey: ["games", gmaeQuery],
+    queryFn: () =>
+      apiClient
+        .get<FetchResponse<Games>>("/games", {
+          params: {
+            genres: gmaeQuery.genres?.id,
+            parent_platforms: gmaeQuery.platform?.id,
+            ordering: gmaeQuery.sort,
+            search: gmaeQuery.search,
+          },
+        })
+        .then((res) => res.data.results),
+  });
+// return UseData<Games>(
+//   "/games",
+//   {
+//     params: {
+//       genres: gmaeQuery.genres?.id,
+//       parent_platforms: gmaeQuery.platform?.id,
+//       ordering: gmaeQuery.sort,
+//       search: gmaeQuery.search,
+//     },
+//   },
+//   [gmaeQuery]
+// );
+
 export default useGames;

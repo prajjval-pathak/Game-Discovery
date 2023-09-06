@@ -18,8 +18,8 @@ interface GenreProps {
   SelectedGenre: Genres | null;
 }
 const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
-  const { data, loading } = useGenres();
-  if (loading)
+  const { data, error, isLoading } = useGenres();
+  if (isLoading)
     return (
       <>
         <Spinner />
@@ -31,7 +31,7 @@ const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
         Genres
       </Heading>
       <ul>
-        {data.map((datas) => (
+        {data?.map((datas) => (
           <List key={datas.id}>
             <ListItem paddingY={"5px"}>
               <HStack>

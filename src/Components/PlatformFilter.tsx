@@ -8,7 +8,7 @@ interface platformProps {
   selectedVal: PlatformResult | null;
 }
 const PlatformFilter = ({ OnPlatformFilter, selectedVal }: platformProps) => {
-  const { data, error, loading } = usePlatform();
+  const { data, error, isLoading } = usePlatform();
   if (error) return null;
   return (
     <>
@@ -18,7 +18,7 @@ const PlatformFilter = ({ OnPlatformFilter, selectedVal }: platformProps) => {
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => OnPlatformFilter(null)}>All</MenuItem>
-          {data.map((platform) => (
+          {data?.map((platform) => (
             <MenuItem
               onClick={() => OnPlatformFilter(platform)}
               key={platform.id}

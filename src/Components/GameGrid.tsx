@@ -13,9 +13,9 @@ interface GameCardProps {
   gameQuey: GameQuery;
 }
 export const GameGrid = ({ gameQuey }: GameCardProps) => {
-  const { data, error, loading } = useGames(gameQuey);
+  const { data, isLoading, error } = useGames(gameQuey);
   const li = [1, 2, 3, 4, 5, 6];
-  if(error)return <Text color="tomato">{error}</Text>
+  if (error) return <Text color="tomato">{error.message}</Text>;
   return (
     <>
       <SimpleGrid
@@ -24,11 +24,11 @@ export const GameGrid = ({ gameQuey }: GameCardProps) => {
         overflow="hidden"
         paddingY="10px"
       >
-        {loading &&
+        {isLoading &&
           li.map((skeleton) => (
             <LoadingSkeleton key={skeleton}></LoadingSkeleton>
           ))}
-        {data.map((res) => (
+        {data?.map((res) => (
           <GameCard game={res} key={res.id} />
         ))}
       </SimpleGrid>
