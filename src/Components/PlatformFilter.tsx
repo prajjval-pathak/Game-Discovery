@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import usePlatform, { PlatformResult } from "../Hooks/usePlatform";
-import { Platform } from "../Hooks/UseGames";
+// import { Platform } from "../Hooks/UseGames";
 interface platformProps {
   OnPlatformFilter: (data: PlatformResult | null) => void;
   selectedVal: PlatformResult | null;

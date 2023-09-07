@@ -1,7 +1,7 @@
 // import { useQuery } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import GenreData from "../Data/GenreData";
-import UseData, { FetchResponse } from "./useData";
+// import GenreData from "../Data/GenreData";
+
 import apiClient from "../Services/api-client";
 
 export interface Genres {
@@ -11,12 +11,10 @@ export interface Genres {
 }
 
 const useGenres = () => {
+  const apiclinet = new apiClient<Genres>("/genres");
   return useQuery({
     queryKey: ["genres"],
-    queryFn: () =>
-      apiClient
-        .get<FetchResponse<Genres>>("/genres")
-        .then((res) => res.data.results),
+    queryFn: apiclinet.getData,
     staleTime: 24 * 60 * 60 * 1000,
     // initialData: { count: GenreData.length, results: GenreData },
   });

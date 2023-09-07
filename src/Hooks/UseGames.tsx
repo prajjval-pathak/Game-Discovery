@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../Services/api-client";
 import { CanceledError } from "axios";
-import UseData, { FetchResponse } from "./useData";
+import { FetchResponse } from "./useData";
 import { Genres } from "./useGeneres";
 import { PlatformResult } from "./usePlatform";
 import { GameQuery } from "../App";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 // import { useQuery } from "@chakra-ui/react";
 
 export interface Platform {
@@ -22,21 +22,38 @@ export interface Games {
   rating_top: number;
 }
 
-const useGames = (gmaeQuery: GameQuery) =>
-  useQuery<Games[], Error>({
+const useGames = (gmaeQuery: GameQuery) => {
+  const apiclient = new apiClient<Games>("/games");
+  return useInfiniteQuery<FetchResponse<Games>, Error>({
     queryKey: ["games", gmaeQuery],
-    queryFn: () =>
-      apiClient
-        .get<FetchResponse<Games>>("/games", {
-          params: {
-            genres: gmaeQuery.genres?.id,
-            parent_platforms: gmaeQuery.platform?.id,
-            ordering: gmaeQuery.sort,
-            search: gmaeQuery.search,
-          },
-        })
-        .then((res) => res.data.results),
+    queryFn: ({pageParam=1}) =>
+      apiclient.getAllData({
+        params: {
+          genres: gmaeQuery.genres?.id,
+          parent_platforms: gmaeQuery.platform?.id,
+          ordering: gmaeQuery.sort,
+          search: gmaeQuery.search,
+          page:pageParam
+        },
+
+      }),
+      getNextPageParam:(lastPage,allPages)=>{
+        return lastPage.next?allPages.length+1:undefined
+      }
+
+    // queryFn: () =>
+    //   apiClient
+    //     .get<FetchResponse<Games>>("/games", {
+    //       params: {
+    //         genres: gmaeQuery.genres?.id,
+    //         parent_platforms: gmaeQuery.platform?.id,
+    //         ordering: gmaeQuery.sort,
+    //         search: gmaeQuery.search,
+    //       },
+    //     })
+    //     .then((res) => res.data.results),
   });
+};
 // return UseData<Games>(
 //   "/games",
 //   {

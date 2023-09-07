@@ -22,6 +22,7 @@ export interface GameQuery {
   platform: PlatformResult | null;
   sort: string;
   search: string;
+  page:number
 }
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
