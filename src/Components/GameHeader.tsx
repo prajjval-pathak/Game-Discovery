@@ -12,7 +12,7 @@ const GameHeader = ({ gameQuery }: HeaderProps) => {
   const { data } = useGenres();
   const result = data?.find((pt) => pt.id === gameQuery.genresID);
   const heading = `${gameQuery.platform ? gameQuery.platform.name : ""} ${
-    result?.name
+    result ? result.name : ""
   } Games`;
   return (
     <Heading marginY={5} as="h1">
