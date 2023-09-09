@@ -18,11 +18,11 @@ import { PlatformResult } from "./Hooks/usePlatform";
 import SortFilter from "./Components/SortFilter";
 import GameHeader from "./Components/GameHeader";
 export interface GameQuery {
-  genres: Genres | null;
+  genresID: number | null;
   platform: PlatformResult | null;
   sort: string;
   search: string;
-  page:number
+  page: number;
 }
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
@@ -42,8 +42,8 @@ function App() {
       <Show above="lg">
         <GridItem paddingX={"20px"} area="aside">
           <GenresList
-            SelectedGenre={gameQuery.genres}
-            onSelect={(genres) => setGameQuery({ ...gameQuery, genres })}
+            SelectedGenre={gameQuery.genresID}
+            onSelect={(genresID) => setGameQuery({ ...gameQuery, genresID })}
           />
         </GridItem>
       </Show>
@@ -57,7 +57,7 @@ function App() {
             }
           />
           <SortFilter
-          selectedFilter={gameQuery.sort}
+            selectedFilter={gameQuery.sort}
             onSortFilter={(sort) => {
               setGameQuery({ ...gameQuery, sort });
             }}

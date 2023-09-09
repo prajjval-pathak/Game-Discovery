@@ -13,8 +13,8 @@ import {
 import Formatter from "../Services/url-format";
 
 interface GenreProps {
-  onSelect: (dat: Genres) => void;
-  SelectedGenre: Genres | null;
+  onSelect: (dat: number) => void;
+  SelectedGenre: number | null;
 }
 const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
   const { data, error, isLoading } = useGenres();
@@ -41,13 +41,11 @@ const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
                   objectFit={"cover"}
                 ></Image>
                 <Button
-                  fontWeight={
-                    datas.id === SelectedGenre?.id ? "bold" : "normal"
-                  }
+                  fontWeight={datas.id === SelectedGenre ? "bold" : "normal"}
                   display={"inline"}
                   whiteSpace={"normal"}
                   textAlign={"left"}
-                  onClick={() => onSelect(datas)}
+                  onClick={() => onSelect(datas.id)}
                   variant="link"
                   fontSize={"lg"}
                 >

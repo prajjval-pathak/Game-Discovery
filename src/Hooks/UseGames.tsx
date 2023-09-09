@@ -29,7 +29,7 @@ const useGames = (gmaeQuery: GameQuery) => {
     queryFn: ({pageParam=1}) =>
       apiclient.getAllData({
         params: {
-          genres: gmaeQuery.genres?.id,
+          genres: gmaeQuery.genresID,
           parent_platforms: gmaeQuery.platform?.id,
           ordering: gmaeQuery.sort,
           search: gmaeQuery.search,
