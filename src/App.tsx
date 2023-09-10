@@ -19,7 +19,7 @@ import SortFilter from "./Components/SortFilter";
 import GameHeader from "./Components/GameHeader";
 export interface GameQuery {
   genresID: number | null;
-  platform: PlatformResult | null;
+  platform: number | null;
   sort: string;
   search: string;
   page: number;
