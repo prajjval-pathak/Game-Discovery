@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "../Hooks/UseGames";
+// import { Platform } from "../Hooks/UseGames";
 import { Icon, HStack } from "@chakra-ui/react";
 import {
   FaPlaystation,
@@ -13,6 +13,7 @@ import { MdPhoneIphone } from "react-icons/md";
 import { SiNintendo } from "react-icons/si";
 import { BsGlobe } from "react-icons/bs";
 import { IconType } from "react-icons/lib/cjs/iconBase";
+import { Platform } from "../Hooks/usePlatform";
 
 interface Props {
   platforms: Platform[];

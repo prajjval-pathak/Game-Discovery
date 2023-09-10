@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import apiClient from "../Services/api-client";
 import { CanceledError } from "axios";
-import UseData from "./useData";
+import { FetchResponse } from "./useData";
 import { Genres } from "./useGeneres";
 import { PlatformResult } from "./usePlatform";
 import { GameQuery } from "../App";
+import { useInfiniteQuery } from "@tanstack/react-query";
+// import { useQuery } from "@chakra-ui/react";
 
 export interface Platform {
   id: number;
@@ -21,17 +23,48 @@ export interface Games {
 }
 
 const useGames = (gmaeQuery: GameQuery) => {
-  return UseData<Games>(
-    "/games",
-    {
-      params: {
-        genres: gmaeQuery.genres?.id,
-        parent_platforms: gmaeQuery.platform?.id,
-        ordering: gmaeQuery.sort,
-        search: gmaeQuery.search,
-      },
-    },
-    [gmaeQuery]
-  );
+  const apiclient = new apiClient<Games>("/games");
+  return useInfiniteQuery<FetchResponse<Games>, Error>({
+    queryKey: ["games", gmaeQuery],
+    queryFn: ({pageParam=1}) =>
+      apiclient.getAllData({
+        params: {
+          genres: gmaeQuery.genresID,
+          parent_platforms: gmaeQuery.platform,
+          ordering: gmaeQuery.sort,
+          search: gmaeQuery.search,
+          page:pageParam
+        },
+
+      }),
+      getNextPageParam:(lastPage,allPages)=>{
+        return lastPage.next?allPages.length+1:undefined
+      }
+
+    // queryFn: () =>
+    //   apiClient
+    //     .get<FetchResponse<Games>>("/games", {
+    //       params: {
+    //         genres: gmaeQuery.genres?.id,
+    //         parent_platforms: gmaeQuery.platform?.id,
+    //         ordering: gmaeQuery.sort,
+    //         search: gmaeQuery.search,
+    //       },
+    //     })
+    //     .then((res) => res.data.results),
+  });
 };
+// return UseData<Games>(
+//   "/games",
+//   {
+//     params: {
+//       genres: gmaeQuery.genres?.id,
+//       parent_platforms: gmaeQuery.platform?.id,
+//       ordering: gmaeQuery.sort,
+//       search: gmaeQuery.search,
+//     },
+//   },
+//   [gmaeQuery]
+// );
+
 export default useGames;

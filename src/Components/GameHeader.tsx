@@ -1,6 +1,9 @@
 import React from "react";
 import { GameQuery } from "../App";
 import { Heading } from "@chakra-ui/react";
+import useGenres from "../Hooks/useGeneres";
+import useDataByGenre from "../Hooks/useDataByGenre";
+import useDayaByPlatform from "../Hooks/useDataByPlatform";
 
 interface HeaderProps {
   gameQuery: GameQuery;
@@ -8,8 +11,10 @@ interface HeaderProps {
 const GameHeader = ({ gameQuery }: HeaderProps) => {
   //Games if nothing selected
   //SelectedGenre + selected Platform
-  const heading = `${gameQuery.platform ? gameQuery.platform.name : ""} ${
-    gameQuery.genres ? gameQuery.genres.name : ""
+  const result = useDataByGenre(gameQuery.genresID);
+  const platResult = useDayaByPlatform(gameQuery.platform);
+  const heading = `${gameQuery.platform ? platResult?.name : ""} ${
+    result ? result.name : ""
   } Games`;
   return (
     <Heading marginY={5} as="h1">

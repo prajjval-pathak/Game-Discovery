@@ -1,6 +1,5 @@
 import React from "react";
 import useGenres, { Genres } from "../Hooks/useGeneres";
-import UseData from "../Hooks/useData";
 import {
   Button,
   HStack,
@@ -14,12 +13,12 @@ import {
 import Formatter from "../Services/url-format";
 
 interface GenreProps {
-  onSelect: (dat: Genres) => void;
-  SelectedGenre: Genres | null;
+  onSelect: (dat: number) => void;
+  SelectedGenre: number | null;
 }
 const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
-  const { data, loading } = useGenres();
-  if (loading)
+  const { data, error, isLoading } = useGenres();
+  if (isLoading)
     return (
       <>
         <Spinner />
@@ -31,7 +30,7 @@ const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
         Genres
       </Heading>
       <ul>
-        {data.map((datas) => (
+        {data?.map((datas) => (
           <List key={datas.id}>
             <ListItem paddingY={"5px"}>
               <HStack>
@@ -42,13 +41,11 @@ const GenresList = ({ onSelect, SelectedGenre }: GenreProps) => {
                   objectFit={"cover"}
                 ></Image>
                 <Button
-                  fontWeight={
-                    datas.id === SelectedGenre?.id ? "bold" : "normal"
-                  }
+                  fontWeight={datas.id === SelectedGenre ? "bold" : "normal"}
                   display={"inline"}
                   whiteSpace={"normal"}
                   textAlign={"left"}
-                  onClick={() => onSelect(datas)}
+                  onClick={() => onSelect(datas.id)}
                   variant="link"
                   fontSize={"lg"}
                 >
