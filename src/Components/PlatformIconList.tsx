@@ -1,4 +1,5 @@
-import React from "react";
+0
+ import React from "react";
 // import { Platform } from "../Hooks/UseGames";
 import { Icon, HStack } from "@chakra-ui/react";
 import {
@@ -27,7 +28,7 @@ export const PlatformIconList = ({ platforms }: Props) => {
     linux: FaLinux,
     xbox: FaXbox,
     mac: FaApple,
-    ios: MdPhoneIphone,
+     ios: MdPhoneIphone,
     nintendo: SiNintendo,
     web: BsGlobe,
   };

@@ -1,4 +1,5 @@
 import { Card, CardBody, Heading, Image, Text, HStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import React from "react";
 import { Games } from "../Hooks/UseGames";
 import { PlatformIconList } from "./PlatformIconList";
@@ -11,7 +12,7 @@ interface Props {
 }
 export const GameCard = ({ game }: Props) => {
   return (
-    <>
+    <Link to={`/games/${game.id}`}>
       <Card borderRadius={10} overflow="hidden">
         <Image src={Formatter(game.background_image)} alt={game.name}></Image>
         <CardBody>
@@ -27,6 +28,6 @@ export const GameCard = ({ game }: Props) => {
           <Emoji GameRate={game.rating_top} />
         </CardBody>
       </Card>
-    </>
+    </Link>
   );
 };

@@ -4,8 +4,9 @@ import { CanceledError } from "axios";
 import { FetchResponse } from "./useData";
 import { Genres } from "./useGeneres";
 import { PlatformResult } from "./usePlatform";
-import { GameQuery } from "../App";
+import { GameQuery } from "../types";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import ms from "ms";
 // import { useQuery } from "@chakra-ui/react";
 
 export interface Platform {
@@ -26,20 +27,20 @@ const useGames = (gmaeQuery: GameQuery) => {
   const apiclient = new apiClient<Games>("/games");
   return useInfiniteQuery<FetchResponse<Games>, Error>({
     queryKey: ["games", gmaeQuery],
-    queryFn: ({pageParam=1}) =>
+    queryFn: ({ pageParam = 1 }) =>
       apiclient.getAllData({
         params: {
           genres: gmaeQuery.genresID,
           parent_platforms: gmaeQuery.platform,
           ordering: gmaeQuery.sort,
           search: gmaeQuery.search,
-          page:pageParam
+          page: pageParam,
         },
-
       }),
-      getNextPageParam:(lastPage,allPages)=>{
-        return lastPage.next?allPages.length+1:undefined
-      }
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined;
+    },
+    staleTime: ms("1d"),
 
     // queryFn: () =>
     //   apiClient

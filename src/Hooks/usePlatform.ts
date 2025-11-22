@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../Services/api-client";
+import ms from "ms";
 export interface PlatformResult {
   name: string;
   id: number;
@@ -21,7 +22,7 @@ const usePlatform = () => {
     //   apiClient
     //     .get<FetchResponse<PlatformResult>>("/platforms/lists/parents")
     //     .then((res) => res.data.results),
-    staleTime: 24 * 60 * 60 * 1000,
+    staleTime: ms("1d"),
   });
 };
 

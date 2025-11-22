@@ -1,12 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { FetchResponse } from "../Hooks/useData";
-import { GameQuery } from "../App";
+import { GameQuery } from "../types";
 
 const axiosInstance = axios.create({
   baseURL: "https://api.rawg.io/api",
   params: {
     key: "87500a509c1e48bb85e2602e63e69343",
   },
+
 });
 class apiClient<T> {
   endpoint: string;
@@ -22,6 +23,11 @@ class apiClient<T> {
   getAllData = (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<FetchResponse<T>>(this.endpoint, config)
+      .then((res) => res.data);
+  };
+  get = (id: number | string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
   };
 }

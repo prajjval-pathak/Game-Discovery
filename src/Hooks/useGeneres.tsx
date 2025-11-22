@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 // import GenreData from "../Data/GenreData";
 
 import apiClient from "../Services/api-client";
+import ms from "ms";
 
 export interface Genres {
   id: number;
@@ -15,8 +16,10 @@ const useGenres = () => {
   return useQuery({
     queryKey: ["genres"],
     queryFn: apiclinet.getData,
-    staleTime: 24 * 60 * 60 * 1000,
+    staleTime: ms('1d'),
     // initialData: { count: GenreData.length, results: GenreData },
   });
 };
 export default useGenres;
+
+
