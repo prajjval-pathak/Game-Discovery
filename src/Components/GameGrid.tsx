@@ -8,7 +8,7 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import useGames from "../Hooks/UseGames";
 import { Genres } from "../Hooks/useGeneres";
 import { PlatformResult } from "../Hooks/usePlatform";
-import { GameQuery } from "../App";
+import { GameQuery } from "../types";
 import InfiniteScroll from "react-infinite-scroll-component";
 interface GameCardProps {
   gameQuey: GameQuery;
