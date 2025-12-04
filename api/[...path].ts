@@ -1,69 +1,35 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import axios from 'axios';
+// api/[...path].ts
+export default {
+  async fetch(request: Request) {
+    const url = new URL(request.url);
 
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse
-) {
-  // Log incoming request details for debugging
-  console.log('Incoming Request URL:', request.url);
-  console.log('Incoming Query Params:', JSON.stringify(request.query));
-
-  const { path } = request.query;
-  const apiKey = process.env.RAWG_API_KEY;
-
-  if (!apiKey) {
-    console.error('API Key is missing in environment variables');
-    return response.status(500).json({ error: 'API Key not configured' });
-  }
-
-  try {
-    let pathStr = '';
-
-    // Try to get path from Vercel's query param
-    if (path) {
-      pathStr = Array.isArray(path) ? path.join('/') : path;
-    } 
-    
-    // Fallback: If path is undefined or empty, try to parse it from the URL
-    if (!pathStr) {
-      const url = new URL(request.url || '', `http://${request.headers.host}`);
-      // Remove '/api/' prefix to get the target endpoint (e.g., 'games')
-      pathStr = url.pathname.replace(/^\/api\/?/, '');
+    const apiKey = process.env.RAWG_API_KEY;
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({ error: 'RAWG_API_KEY not configured' }),
+        { status: 500, headers: { 'content-type': 'application/json' } }
+      );
     }
 
-    console.log('Resolved Path:', pathStr);
+    // strip leading /api/
+    const rawPath = url.pathname.replace(/^\/api\/?/, '');
+    const target = new URL(`https://api.rawg.io/api/${rawPath}`);
 
-    if (!pathStr) {
-        return response.status(400).json({ error: 'No endpoint specified' });
-    }
-
-    const targetUrl = `https://api.rawg.io/api/${pathStr}`;
-    console.log('Forwarding to:', targetUrl);
-
-    const { method, body, query } = request;
-    
-    // Prepare query params: remove 'path' and add 'key'
-    const queryParams = { ...query };
-    delete queryParams.path;
-    queryParams.key = apiKey;
-
-    const res = await axios({
-      method: method as any,
-      url: targetUrl,
-      params: queryParams,
-      data: body,
+    // copy existing query params except any internal ones
+    url.searchParams.forEach((value, key) => {
+      if (key !== 'path') target.searchParams.set(key, value);
     });
 
-    response.status(res.status).send(res.data);
-  } catch (error: any) {
-    console.error('Proxy Error:', error.message);
-    if (error.response) {
-        console.error('Upstream Status:', error.response.status);
-        console.error('Upstream Data:', JSON.stringify(error.response.data));
-        response.status(error.response.status).send(error.response.data);
-    } else {
-        response.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
-}
+    target.searchParams.set('key', apiKey);
+
+    const upstream = await fetch(target.toString(), {
+      method: request.method,
+      body: request.method === 'GET' || request.method === 'HEAD'
+        ? undefined
+        : await request.arrayBuffer(),
+      headers: request.headers,
+    });
+
+    return upstream;
+  },
+};
